@@ -34,19 +34,10 @@ void multiplicaMatriz(void *arg) {
 //--funcao de inicializacao
 int inicializa(int dim) {
     matriz = (float*)malloc(sizeof(float) * dim * dim);
-    if (matriz == NULL) {
-        print("ERRO--malloc\n");
-        return 2;
-    }
-
     vetor = (float*)malloc(sizeof(float) * dim);
-    if (vetor == NULL) {
-        print("ERRO--malloc\n");
-        return 2;
-    }
-
     saida = (float*)malloc(sizeof(float) * dim * dim);
-    if (saida == NULL) {
+    
+    if ((matriz == NULL) || (vetor == NULL) || (saida == NULL)) {
         print("ERRO--malloc\n");
         return 2;
     }
