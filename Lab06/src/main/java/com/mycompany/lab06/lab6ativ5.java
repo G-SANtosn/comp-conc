@@ -7,7 +7,11 @@ package com.mycompany.lab06;
 
 /**
  *
- * @author Gabriel
+ * @author Gabriel Santos de Araujo do Nascimento
+ * @Disciplina Computação Concorrent
+ * @Prof.: Silvana Rossetto
+ * Módulo 2 - Laboratório 6
+ * @Código: Soma dois vetores usando threads em Java
  */
 
 class Vetor {
@@ -57,36 +61,19 @@ class SomaVetores extends Thread {
     public static Vetor b;
     public static Vetor c;
     int tamanho;
-    private static boolean impresso = false;
     
-    public SomaVetores(Vetor a, Vetor b, int tam) {
+    public SomaVetores(Vetor a, Vetor b, Vetor c, int tam) {
         this.a = a;
         this.b = b;
+        this.c = c;
         this.tamanho = tam;
-        c = new Vetor(tamanho);
     }
     
-    public synchronized void imprimeC() {
-        System.out.println("Vetor C:");
-        c.imprime();
-    }
-    
-    @Override
+        @Override
     public void run() {
         for (int i = 0; i < tamanho; i++) {
             c.alteraElem(i, a.getElem(i) + b.getElem(i));
         }
-        
-        lab6ativ5.c = this.c;
-        
-        /*
-        if (!this.impresso) {
-            System.out.println("Vetor C:");
-            c.imprime();
-            impresso = true;
-            lab6ativ5.c = this.c;
-        }
-        */
     }
 }
 
@@ -102,6 +89,7 @@ public class lab6ativ5 {
         
         a = new Vetor(tamanho);
         b = new Vetor(tamanho);
+        c = new Vetor(tamanho);
         
         for (int i = 0; i < 10; i++) {
             a.alteraElem(i, i*2);
@@ -118,7 +106,7 @@ public class lab6ativ5 {
         b.imprime();
         
         for (int i = 0; i < N; i++) {
-            threads[i] = new SomaVetores(a, b, tamanho);
+            threads[i] = new SomaVetores(a, b, c, tamanho);
         }
         
         for (int i = 0; i < N; i++) {
