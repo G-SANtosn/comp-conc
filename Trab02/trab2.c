@@ -111,7 +111,8 @@ int partition(int* vetor, int low, int high) {
     int i = (low - 1);
     printf("Entrou em partition(). low = %d e high = %d.\n", low, high);
 
-    for (int j = low; j <= high - 1; j++) {
+    int j = low;
+    for (j = low; j <= high - 1; j++) {
         if (vetor[j] <= pivot) {
             i++;
             swap(i, j);
@@ -184,7 +185,8 @@ int inicializa(int tam) {
     }
     printf("Debug: Alocou vetor.\n");
 
-    for (int i = 0; i < tam; i++) {
+    int i = 0;
+    for (i = 0; i < tam; i++) {
         vetor[i] = (rand() % 100);
     }
     printf("Debug: Preencheu o vetor com valores aleatórios.\n");
@@ -198,7 +200,8 @@ int inicializa(int tam) {
 //--imprime o vetor
 int imprimeVetor(int tam) {
     printf("Vetor:\n");
-    for (int i = 0; i < tam; i++) {
+    int i = 0;
+    for (i = 0; i < tam; i++) {
         printf("%d ", vetor[i]);
 
         if ((i + 1) % 10 == 0) {
@@ -268,7 +271,8 @@ int main(int argc, char* argv[]) {
     }
     printf("Debug: Alocou argumentos.\n");
 
-    for (int i = 0; i < nthreads; i++) {
+    int i = 0;
+    for (i = 0; i < nthreads; i++) {
         (argumentos + i)->id = i;
         //(argumentos + i)->tam = tam;
         if (pthread_create(tid + i, NULL, executaTarefa, (void*)(argumentos + i))) {
@@ -277,7 +281,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for (int i = 0; i < nthreads; i++) {
+    i = 0;
+    for (i = 0; i < nthreads; i++) {
         pthread_join(*(tid + i), NULL);
     }
     //Fim da alocação
