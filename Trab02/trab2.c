@@ -36,7 +36,7 @@ tFila* fila;
 int push(tFila* fila, int low, int high) {
     printf("Debug: Entrou no metodo push.\n");
     pthread_mutex_lock(&x_mutex);
-    printf("Debug: Teste.\n");
+    printf("Debug: push(): Teste. Nao travou apos chamar pthread_mutex_lock.\n");
 
     tElems* novo = (tElems*)malloc(sizeof(tElems));
     if (novo == NULL) {
@@ -54,7 +54,7 @@ int push(tFila* fila, int low, int high) {
 
     if (fila->bottom != NULL) {
         fila->bottom->next = novo;
-        printf("Debug: Colocou.\n");
+         printf("Debug: Colocou elemento no final da fila.\n");
     }
     fila->bottom = novo;
     printf("Debug: Colocou elemento no final da fila.\n");
@@ -65,9 +65,6 @@ int push(tFila* fila, int low, int high) {
         printf("Debug: Colocou elemento no comeco da fila.\n");
     }
 
-    free(novo);
-    printf("Debug: push(): Liberou espaco da variavel auxiliar.\n");
-
     pthread_mutex_unlock(&x_mutex);
 
     return 4;
@@ -77,36 +74,35 @@ int push(tFila* fila, int low, int high) {
 tElems* pop(tFila* fila) {
     printf("Debug: Entrou no metodo pop.\n");
     //pthread_mutex_lock(&x_mutex);
-    printf("Debug: Teste.\n");
+    printf("Debug: pop(): Teste.  Nao travou apos chamar pthread_mutex_lock.\n");
 
     if (fila->top == NULL) {
         pthread_mutex_lock(&x_mutex);
         //return NULL;
     }
 
-    printf("Debug: Topo da fila: low = %d e high = %d.\n", (int)fila->top->low, (int)fila->top->high);
+    printf("Debug: Topo da fila: low = %d e high = %d.\n", fila->top->low, fila->top->high);
 
-    tElems* top = (tElems*)fila->top;
+    tElems* top = fila->top;
     //tElems* aux = (tElems*)fila->top;
-    fila->top = (tElems*)fila->top->next;
-    printf("Debug: Pegou um elemento. low = %d e high = %d.\n", (int)top->low, (int)top->high);
+    fila->top = fila->top->next;
+    printf("Debug: Pegou um elemento. low = %d e high = %d.\n", top->low, top->high);
     //free(aux);
     //printf("Debug: pop(): Liberou espaço da variavel auxiliar.\n");
 
     pthread_mutex_unlock(&x_mutex);
 
-    //return (void*)top;
     printf("Saindo do metodo pop().\n");
     return top;
 }
 
 //troca elementos
 void swap(int i, int j) {
-    printf("Debug: swap(): Trocando os valores das posicoes %d e %d.\n", i, j);
+    //printf("Debug: swap(): Trocando os valores das posicoes %d e %d.\n", i, j);
     int aux = vetor[i];
     vetor[i] = vetor[j];
     vetor[j] = aux;
-    printf("Debug: swap(): Valores de %d e %d trocados com sucesso.\n", i, j);
+    //printf("Debug: swap(): Valores de %d e %d trocados com sucesso.\n", i, j);
 }
 
 //particao
@@ -131,7 +127,7 @@ void quicksort(int* array, int low, int high) {
     //void* arg
 
     //tElems* elementos = (tEles*)arg;
-    printf("Debug: Comecou quicksort. Elementos de %d a %d do vetor.\n", (int)low, (int)high);
+    printf("Debug: Comecou quicksort. Elementos de %d a %d do vetor.\n", low, high);
 
     if (low < high) {
         int pi = partition(array, low, high);
@@ -164,7 +160,7 @@ void* executaTarefa(void* arg) {
         printf("Debug: Teste.\n");
 
         tElems* elemento = pop(fila);
-        printf("Thread %d pegou a parte de %d a %d do vetor.\n", argumentos->id, (int)elemento->low, (int)elemento->high);
+        printf("Thread %d pegou a parte de %d a %d do vetor.\n", argumentos->id, elemento->low, elemento->high);
         quicksort(vetor, elemento->low, elemento->high);
         //quicksort(elemento);
 
